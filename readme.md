@@ -1,6 +1,10 @@
 # Serverless Image Processing Architecture
 
-{{https://www.youtube.com/watch?v=j-GLeaqad9w}}
+
+
+https://github.com/user-attachments/assets/b2304eed-a4a4-41cd-970e-677f7291195e
+
+
 
 ## Overview
 
@@ -26,4 +30,8 @@ then a lambda function respond to an upload event and creates a thumbnail image 
     - One to store the images (Private Bucket)
 - IAM
     - For roles to the lambda functions and API gateway
+
+
+
+
 
