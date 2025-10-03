@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Serverless Image Upload</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .box { padding: 1rem; border: 2px dashed #888; margin-bottom: 1rem; }
+    button { padding: 0.5rem 1rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Upload an Image to S3</h1>
+  <div class="box">
+    <input type="file" id="fileInput" />
+  </div>
+  <button onclick="uploadFile()">Upload</button>
+  <p id="status"></p>
+
+  <script>
+    async function uploadFile() {
+      const fileInput = document.getElementById("fileInput");
+      const status = document.getElementById("status");
+
+      if (!fileInput.files.length) {
+        status.innerText = "Please select a file.";
+        return;
+      }
+
+      const file = fileInput.files[0];
+      status.innerText = "Requesting upload details...";
+
+      try {
+        // current url + /upload
+        const apiUrl = new URL(window.location.href + "upload");
+
+        // Step 1: Get presigned POST data
+        const res = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ file_name: file.name, file_type: file.type })
+        });
+
+        const presignedData = await res.json();
+        if (!presignedData.url || !presignedData.fields) {
+          throw new Error("Invalid presigned response.");
+        }
+
+        status.innerText = "Uploading to S3...";
+
+        // Step 2: Build FormData
+        const formData = new FormData();
+        Object.entries(presignedData.fields).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        formData.append("file", file);
+
+        // Step 3: Upload file to S3
+        const uploadRes = await fetch(presignedData.url, {
+          method: "POST",
+          body: formData
+        });
+
+            // S3 usually responds with 204 on success
+        if (uploadRes.status === 204) {
+          status.innerText = "✅ Upload successful!";
+        } else {
+          throw new Error("Upload failed with status " + uploadRes.status);
+        }
+
+      } catch (err) {
+        console.error(err);
+        status.innerText = "❌ Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
