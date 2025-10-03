@@ -7,7 +7,7 @@ then a lambda function respond to an upload event and creates a thumbnail image 
 
 ## Architecture
 
-![Architecture](https://github.com/waleedkhamees/serverless-image-processing/blob/master/assets/architecture.png)
+![Architecture](https://github.com/waleedkhamees/serverless-image-processing/blob/master/assets/architecture.jpg)
 
 ## Services used
 
