@@ -1,6 +1,6 @@
 # Serverless Image Processing Architecture
 
-<iframe width="1623" height="775" src="https://www.youtube.com/embed/j-GLeaqad9w" title="Waleed Khamees&#39;s Final project for manara solution architect course" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+{{https://www.youtube.com/watch?v=j-GLeaqad9w}}
 
 ## Overview
 
